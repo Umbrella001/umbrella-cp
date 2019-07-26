@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      #level0 {
+        /* width: 500px;
+        height: 500px; */
+        position: relative;
+      }
+
+      #level1-0 {
+        position: absolute;
+        z-index: 1;
+        background: red;
+        width: 500px;
+        height: 500px;
+      }
+
+      #level1-1 {
+        background: green;
+        width: 500px;
+        height: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="level0">
+      
+      <div id="level1-1">
+            <div id="level1-0">
+                </div>
+      </div> 
+    </div>
+  </body>
+  <script type="text/javascript">
+
+    var level10 = document.getElementById("level1-0");
+    var level11 = document.getElementById("level1-1");
+
+
+    level10.addEventListener('touchstart', function(e) {
+    //   setTimeout(()=>{
+    //     level10.style.display = 'none';
+    //   },300)
+    level10.style.display = 'none';
+    });
+
+    level10.addEventListener('touchend',function(e){
+         e.preventDefault();
+        // e.stopPropagation();// 
+    })
+
+    level11.onclick = function() {
+      console.log('level11莫名被点击了');
+    }
+
+  </script>
+</html>
