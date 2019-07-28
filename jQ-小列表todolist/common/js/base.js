@@ -13,6 +13,7 @@
         , $update_form
         , $task_detail_content
         , $task_detail_content_input
+        , $checkbox_complete
         ;
 
     init();
@@ -21,9 +22,10 @@
        初始化并且读取localStorage数据
      */
     function init(){
+        // 读取当前localStorage的数据,没有则返回空数组
         task_list = store.get('task_list') || []; 
 
-
+        // 如果当前浏览器的localStorage有数据task_list就渲染模版
         if(task_list.length) render_task_list();
      }
 
@@ -34,6 +36,7 @@
     $form_input.on('keydown',function(e){
         var e = e || window.event;
         if(e.keyCode == 13){
+            // 13keyCode为回车键
             add_task_fn();
         }
     })
@@ -55,7 +58,7 @@
         console.log("+++333++++");
         
         if(add_task(new_task)){
-            // 清空输入框的内容
+        // 清空输入框的内容
         $inputVal.val(null);
         
         }
@@ -96,11 +99,16 @@
             $task_list.prepend($task_item);
         }
 
-        // 拿到渲染后的页面进行删除监听(注意必须是渲染完list内的item后才有对应的item元素,JQ是不会再次去更新的)
+        // 拿到渲染后的页面进行对应的监听事件(注意必须是渲染完list内的item后才有对应的item元素,JQ是不会再次去更新的)
         $task_delect_trigger = $('.action.delete');
         $task_detail_trigger = $('.action.detail');
+        $checkbox_complete = $('.task-item .complete');
+        console.log("$checkbox_complete",$checkbox_complete)
+
+        // 开启[删除][详情][checkbox]按钮的监听
         listen_task_delete();
         listen_task_detail();
+        listen_checkbox_complete();
     }
 
      /* 
@@ -112,7 +120,7 @@
         console.log("+++888++++");
          var list_item = 
             '<div class="task-item" data-index=" ' + index + '">' + 
-            '<span><input type="checkbox"></span>' + 
+            '<span><input class="complete" type="checkbox"></span>' + 
             '<span class="task-content"> '+ data.content + '</span>' + 
             '<span class="fright">' +
             '<span class="action delete"> 删除</span>' + 
@@ -152,39 +160,45 @@
     }
 
     /* 
-      查找并监听对应task的详情按钮点击事件 
+      查找并监听对应task的[详情]按钮点击事件 
     */
     function listen_task_detail(){
+        var index;
+
+        // 双击task对应条目打开详情
+        $('.task-item').on('dblclick',function(){
+            index = Number($(this).data('index'));
+            // 调用详情列表展示方法
+            show_task_detail(index);
+        })
+
         $task_detail_trigger.on('click',function(){
             var $this = $(this);
             var $item = $this.parent().parent();
-            var index = Number($item.data('index'));
-
-            // 调用详情列表展示方法
+            index = Number($item.data('index'));
             show_task_detail(index);
-    })
+        })
+    }
+
+    /* 
+      查找并监听对应task的[checkbox]按钮选择事件 
+    */
+    function listen_checkbox_complete(){
+        $checkbox_complete.on('click',function(){
+            var isComplete = $(this).is(":checked");
+        })
     }
 
     /* 
       点击[详情]展示遮罩和详情框 
     */
     function show_task_detail(index){
+
+        // 点开对应task拿到最新的localStorage数据
         render_task_detail(index);
         current_index = index;
         $task_detail.show();
         $task_detail_mask.show();
-        $update_form = $task_detail.find('form');
-        $update_form.on('submit',function(e){
-            e = e || window.event;
-            e.preventDefault();
-            var data = {};
-            data.content = $(this).find('[name=content]').val();
-            data.desc = $(this).find('[name=desc]').val();
-            data.remind_date = $(this).find('[name=remind_date]').val();
-
-            // 传递当前task的最新数据
-            update_task(index,data);
-        })
     }
 
     /* 
@@ -233,8 +247,12 @@
             '</div>' +
             '<div><button type="submit">更新</button></div>' + 
             '</form>' ;
+
+        // 用新模版代替旧模板
         $task_detail.html(null);
         $task_detail.html(detail_content);
+
+        // 获取对应详情列表的元素
         $update_form = $task_detail.find('form');
         $task_detail_content = $update_form.find('.item-content');
         $task_detail_content_input = $update_form.find('[name = content]') 
@@ -249,6 +267,8 @@
         $update_form.on('submit',function(e){
             e.preventDefault();
             var data = {};
+
+            // 获取表单中元素的值,整合为新数据去渲染模板
             data.content = $(this).find('[name = content]').val();
             data.desc = $(this).find('[name = desc]').val();
             data.remind_date = $(this).find('[name = remind_date]').val();
