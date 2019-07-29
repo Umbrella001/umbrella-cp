@@ -6,9 +6,14 @@
     </head>
     <script src="jquery/jquery-2.2.4.min.js"></script>
     <script src="https://cdn.bootcss.com/store.js/1.3.20/store.min.js"></script>
-    <link href="https://cdn.bootcss.com/normalize/4.2.0/normalize.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/normalize/4.2.0/normalize.css">
+    <link rel="stylesheet" href="node_modules/datetimepicker-master/build/jquery.datetimepicker.min.css">
     <link rel="stylesheet" href="common/css/base.css">
     <body>
+        <div class="msg">
+            <span class="msg-content"></span>
+            <button class="anchor confirmed">知道了</button>
+        </div>
         <header>JQListApp</header>
         <div class="container">
             <!-- 左上侧清单列表操作区 -->
@@ -31,5 +36,6 @@
             </div>
         </div> <!-- container结束 -->
     </body>
+    <script src="node_modules/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
     <script src="common/js/base.js"></script>
 </html>

@@ -14,6 +14,9 @@
         , $task_detail_content
         , $task_detail_content_input
         , $checkbox_complete
+        , $msg = $('.msg')
+        , $msg_content = $msg.find('.msg-content')
+        , $msg_confirm = $msg.find('.anchor')
         ;
 
     /*
@@ -42,8 +45,14 @@
         // 读取当前localStorage的数据,没有则返回空数组
         task_list = callStore.get('task_list') || []; 
 
+        // 开启提醒功能
+        listen_msg_event();
+
         // 如果当前浏览器的localStorage有数据task_list就渲染模版
         if(task_list.length) render_task_list();
+
+        // 开启对比设置事时间和当前时间函数
+        task_remind_check();
      }
 
 
@@ -64,16 +73,16 @@
      */
     function add_task_fn(){
         var new_task = {}, $inputVal;
-        console.log("++++111+++");
+        
        
         // 获取新Task的值
         $inputVal = $form_input;
         new_task.content = $inputVal.val();
 
         // 如果Task值为空，则直接返回 否则继续执行
-        console.log("++++222+++");
+        
         if(!new_task.content &&  new_task.content == '') return;
-        console.log("+++333++++");
+        
         
         if(add_task(new_task)){
         // 清空输入框的内容
@@ -84,7 +93,7 @@
 
     /* 添加清单条目 */ 
     function add_task(new_task){
-        console.log("++++444+++",new_task);
+        
 
         // 将新Task推入task_list
         task_list.push(new_task);
@@ -98,7 +107,7 @@
       添加、删除、更新详情时调用该方法 >>> 刷新localStorage储存的数据并且更新页面
      */
     function refresh_task_list(){
-        console.log("+++555++++",task_list);
+        
         callStore.set('task_list',task_list);       
         render_task_list();
     }
@@ -107,14 +116,30 @@
       每一次添加删除以及提交都调用 渲染全部Task模板
      */
     function render_task_list(){
-        console.log("++++666+++");
+        
         var $task_list = $('.task-list');
         $task_list.html('');
+        var complete_items = []; // 声明定义一个接受完成task的空数组容器
 
         // 循环调用渲染单条Task模板（调用）
         for(var i = 0; i < task_list.length; i++){
-            var $task_item = render_list_item(task_list[i],i);
-            $task_list.prepend($task_item);
+            var complete_item = task_list[i];
+            if(complete_item && complete_item.complete){
+                complete_items[i] = complete_item;
+            }else{
+                var $task_item = render_list_item(task_list[i],i);
+                $task_list.prepend($task_item);
+            }
+
+            
+            for(var j = 0; j < complete_items.length; j++){
+                var $task_item = render_list_item(complete_items[j],j);
+
+                if(!$task_item) continue;
+                $task_item.addClass('completed');
+                $task_list.append($task_item);
+            }
+            
         }
 
         // 拿到渲染后的页面进行对应的监听事件(注意必须是渲染完list内的item后才有对应的item元素,JQ是不会再次去更新的)
@@ -132,9 +157,9 @@
        渲染单条Task模板（方法） 
      */
      function render_list_item(data, index){
-        console.log("+++777++++");
+        
         if(!data) return;
-        console.log("+++888++++");
+        
          var list_item = 
             '<div class="task-item" data-index=" ' + index + '">' + 
             '<span><input class="complete" ' + (data.complete ? "checked" : "" )+ ' type="checkbox"></span>' + 
@@ -198,26 +223,32 @@
     }
 
     /* 
-      查找并监听对应task的[checkbox]按钮选择事件 
+      查找并监听对应task的[checkbox]按钮完成任务task事件 
     */
     function listen_checkbox_complete(){
         $checkbox_complete.on('click',function(){
-            var $this = $(this); 
-            console.log("$this",$this)
-            var index = Number($this.parent().parent().data("index"));
-            var item = callStore.get("task_list",index);
+            var $this = $(this)
 
+            var index = Number($this.parent().parent().data("index"));
+
+            // 拿到点击的item切换complete中的值
+            var item = callStore.get("task_list",index);
             if(item.complete){
                 update_task(index,{complete: false});             
             }else{
                 update_task(index,{complete: true});
             }
-
-            // 更新localStorage里面的数据,增加一个键值对complete
-            // update_task(index,{complete: isComplete});
-
         })
     }
+
+    /*
+      监听弹出的提示信息的[知道了]元素的点击事件
+    */
+   function listen_msg_event(){
+       $msg_confirm.on('click',function(){
+           hide_msg();
+       })
+   }
 
     /* 
       点击[详情]展示遮罩和详情框 
@@ -250,8 +281,27 @@
     function update_task(index,data){
         if(!index || !task_list[index]) return;
         task_list[index] = $.extend({},task_list[index],data);
-        console.log("task_list[index]",task_list[index]);
+
         refresh_task_list();
+    }
+
+    /*
+      在Date的原型链上增加一个日期格式为(yyyy-MM-dd hh:mm:ss)的format方法
+    */
+    Date.prototype.format = function (fmt) { //author: meizz
+        var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
     }
 
     /* 
@@ -261,7 +311,7 @@
         if( index === undefined || !task_list[index]) return;
         var item = task_list[index];
 
-        console.log("item",item);
+        console.log("item",item,item.remind_date,item.content);
         var detail_content = 
             '<form>'  +
             '<div class="item-content">'  +
@@ -274,7 +324,8 @@
             '<textarea name="desc">' + (item.desc || '') + '</textarea>'  +
             '</div>'  +
             '<div class="item-remind">' +
-            '<input name="remind_date" type="date" value=' + item.remind_date + '>'  +
+            '<label style="margin-bottom: 4px">提醒时间</label>' +
+            '<input class="datetime" name="remind_date" value="' + (item.remind_date || new Date().format("yyyy-MM-dd hh:mm")) + '" type="text">'  +
             '</div>' +
             '<div><button type="submit">更新</button></div>' + 
             '</form>' ;
@@ -282,6 +333,9 @@
         // 用新模版代替旧模板
         $task_detail.html(null);
         $task_detail.html(detail_content);
+
+       
+        $('.datetime').datetimepicker();
 
         // 获取对应详情列表的元素
         $update_form = $task_detail.find('form');
@@ -308,6 +362,45 @@
             update_task(index, data);
             hide_task_detail();
         })
+    }
+
+    /*
+       对比当前task中设置的事件和当前时间开启提醒功能 
+     */
+    function task_remind_check(){
+        var current_time;
+        var timer = setInterval(function(){
+            for(var i = 0; i < task_list.length; i++){
+                var item = callStore.get('task_list',i),task_time;
+                
+                if(!item || item.informed) continue;
+    
+                current_time = (new Date().getTime());
+                task_time = (new Date(item.remind_date).getTime());
+    
+                if(current_time - task_time >= 1){
+                    // 如果当前时间到达设置时间则更新localStorage中informed的值
+                    update_task(i,{informed: true});
+                    show_msg(item.content);
+                }
+            }
+        },300);
+        
+    }
+
+    /*
+       弹出对应task名字的提示框
+     */
+    function show_msg(content){
+        $msg.show();
+        $msg_content.html(content) 
+    }
+
+    /*
+       隐藏对应task名字的提示框
+     */
+    function hide_msg(){
+        $msg.hide();
     }
  
     })
