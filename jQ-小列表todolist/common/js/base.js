@@ -16,18 +16,36 @@
         , $checkbox_complete
         ;
 
+    /*
+    将store中的get和set做成个整体方法 
+    */
+    var callStore  = {
+        get: function(obj,index){
+            if(typeof(obj) !== "string") throw new Error("Please enter the correct parameter type --obj(string)");
+            if(index){
+                return store.get(obj)[index];
+            }
+            return store.get(obj);
+        },
+        set: function(obj,param){
+            if(typeof(obj) !== "string") throw new Error("Please enter the correct parameter type --obj(string)");
+            return store.set(obj,param);
+        }
+    }
+
     init();
 
     /* 
        初始化并且读取localStorage数据
-     */
+    */
     function init(){
         // 读取当前localStorage的数据,没有则返回空数组
-        task_list = store.get('task_list') || []; 
+        task_list = callStore.get('task_list') || []; 
 
         // 如果当前浏览器的localStorage有数据task_list就渲染模版
         if(task_list.length) render_task_list();
      }
+
 
     /* 
       监听输入框提交按钮的点击事件及输入框回车输出功能（监听调用）
@@ -81,7 +99,7 @@
      */
     function refresh_task_list(){
         console.log("+++555++++",task_list);
-        store.set('task_list',task_list);       
+        callStore.set('task_list',task_list);       
         render_task_list();
     }
 
@@ -103,7 +121,6 @@
         $task_delect_trigger = $('.action.delete');
         $task_detail_trigger = $('.action.detail');
         $checkbox_complete = $('.task-item .complete');
-        console.log("$checkbox_complete",$checkbox_complete)
 
         // 开启[删除][详情][checkbox]按钮的监听
         listen_task_delete();
@@ -120,7 +137,7 @@
         console.log("+++888++++");
          var list_item = 
             '<div class="task-item" data-index=" ' + index + '">' + 
-            '<span><input class="complete" type="checkbox"></span>' + 
+            '<span><input class="complete" ' + (data.complete ? "checked" : "" )+ ' type="checkbox"></span>' + 
             '<span class="task-content"> '+ data.content + '</span>' + 
             '<span class="fright">' +
             '<span class="action delete"> 删除</span>' + 
@@ -185,7 +202,20 @@
     */
     function listen_checkbox_complete(){
         $checkbox_complete.on('click',function(){
-            var isComplete = $(this).is(":checked");
+            var $this = $(this); 
+            console.log("$this",$this)
+            var index = Number($this.parent().parent().data("index"));
+            var item = callStore.get("task_list",index);
+
+            if(item.complete){
+                update_task(index,{complete: false});             
+            }else{
+                update_task(index,{complete: true});
+            }
+
+            // 更新localStorage里面的数据,增加一个键值对complete
+            // update_task(index,{complete: isComplete});
+
         })
     }
 
@@ -219,7 +249,8 @@
     */
     function update_task(index,data){
         if(!index || !task_list[index]) return;
-        task_list[index] = data;
+        task_list[index] = $.extend({},task_list[index],data);
+        console.log("task_list[index]",task_list[index]);
         refresh_task_list();
     }
 
