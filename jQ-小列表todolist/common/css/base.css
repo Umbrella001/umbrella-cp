@@ -20,7 +20,7 @@
 }
 body{
     /* background: linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%) no-repeat; */
-    background-color: #ffbbf7;
+    background: url('../img/app_bg.jpg') no-repeat fixed 0 0;
 }
 /* 清除浮动:父级伪类 */
 .clearfloat::after{
@@ -93,6 +93,8 @@ form input[name=content]{
 }
 .add-task button,
 .task-detail button,
+.pop-cancel,
+.pop-primary,
 .msg button{
     display: inline-block;
     flex: 1;
@@ -139,7 +141,7 @@ button:hover{
     right: 0;
     z-index: 100;
     width: 50%;
-    min-height: 100px;
+    overflow: auto;
     background: #fff;
     color: #333;
     padding: 10px;
@@ -207,15 +209,40 @@ input[type=text]:hover{
 .msg{
     display: none;
     height: auto;
-    color: #333;
-    background: #1ef8d4;
+    color: #fff;
+    background: #dd32ff;
     text-align: center;
     padding: 10px;
+}
+.msg-content{
+    color: #333;
 }
 .anchor{
     width: 60px;
     height: 10px;
     margin-top: 4px;
+    margin-left: 6px;
     line-height: 10px;
     box-shadow: none;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.pop-primary{
+    flex: 1;
+    margin: 4% 4% 4% 10%;
+}
+.pop-cancel{
+    flex: 1;
+    background: #ddd;
+    margin: 4% 10% 4% 4%;
+}
+.pop-cancel:hover{
+    background: #ccc;
+}
+.notify{
+    width: 0;
+    height: 0; 
 }

@@ -17,6 +17,10 @@
         , $msg = $('.msg')
         , $msg_content = $msg.find('.msg-content')
         , $msg_confirm = $msg.find('.anchor')
+        , $notify = $('.notify')
+        , $body = $('body')
+        , $window = $(window)
+        , timer_index
         ;
 
     /*
@@ -43,16 +47,16 @@
     */
     function init(){
         // 读取当前localStorage的数据,没有则返回空数组
-        task_list = callStore.get('task_list') || []; 
-
-        // 开启提醒功能
-        listen_msg_event();
+        task_list = callStore.get('task_list') || [];
 
         // 如果当前浏览器的localStorage有数据task_list就渲染模版
         if(task_list.length) render_task_list();
 
         // 开启对比设置事时间和当前时间函数
         task_remind_check();
+
+        // 开启提醒功能
+        listen_msg_event();
      }
 
 
@@ -129,18 +133,16 @@
             }else{
                 var $task_item = render_list_item(task_list[i],i);
                 $task_list.prepend($task_item);
-            }
-
-            
-            for(var j = 0; j < complete_items.length; j++){
-                var $task_item = render_list_item(complete_items[j],j);
-
-                if(!$task_item) continue;
-                $task_item.addClass('completed');
-                $task_list.append($task_item);
-            }
-            
+            }        
         }
+
+        for(var j = 0; j < complete_items.length; j++){
+                    var $task_item = render_list_item(complete_items[j],j);
+    
+                    if(!$task_item) continue;
+                    $task_item.addClass('completed');
+                    $task_list.append($task_item);
+                }
 
         // 拿到渲染后的页面进行对应的监听事件(注意必须是渲染完list内的item后才有对应的item元素,JQ是不会再次去更新的)
         $task_delect_trigger = $('.action.delete');
@@ -196,8 +198,10 @@
         var index = Number($item.data('index'));
 
         // 确认是否删除询问
-        var pop = confirm('确认删除吗?');
-        pop ? delete_task(index) : null;
+        popup(task_list[index]).then(function(result){
+            result ? delete_task(index) : null;
+        });
+        
     })
     }
 
@@ -244,7 +248,7 @@
     /*
       监听弹出的提示信息的[知道了]元素的点击事件
     */
-   function listen_msg_event(){
+   function listen_msg_event(){    
        $msg_confirm.on('click',function(){
            hide_msg();
        })
@@ -311,7 +315,6 @@
         if( index === undefined || !task_list[index]) return;
         var item = task_list[index];
 
-        console.log("item",item,item.remind_date,item.content);
         var detail_content = 
             '<form>'  +
             '<div class="item-content">'  +
@@ -377,10 +380,11 @@
     
                 current_time = (new Date().getTime());
                 task_time = (new Date(item.remind_date).getTime());
-    
-                if(current_time - task_time >= 1){
+                
+                if(current_time - task_time >= 1 && current_time - task_time <= 60000){
                     // 如果当前时间到达设置时间则更新localStorage中informed的值
                     update_task(i,{informed: true});
+                    timer_index = i;
                     show_msg(item.content);
                 }
             }
@@ -389,20 +393,162 @@
     }
 
     /*
-       弹出对应task名字的提示框
+       弹出对应task名字的提示框同时播放提醒音乐
      */
     function show_msg(content){
         $msg.show();
+        $notify.get(0).play(); // 开始播放
         $msg_content.html(content) 
     }
 
     /*
-       隐藏对应task名字的提示框
+       隐藏对应task名字的提示框并暂停重置提醒音乐
      */
     function hide_msg(){
         $msg.hide();
+        $notify.get(0).currentTime = 0; // 重置播放时间
+        $notify.get(0).pause();  // 暂停播放
+        var hide_timer = setTimeout(function(){
+            update_task(timer_index,{informed: false})
+            clearTimeout(hide_timer);
+        },60300)
     }
- 
+
+    /*
+       自定义pop确定删除窗口 
+     */
+    function popup(data){
+        if(!data) throw new Error("Lack of parameters data!");
+        var conf = {}
+        , $pop
+        , $pop_mask
+        , $pop_title
+        , $pop_content
+        , $callBack
+        , $pop_primary
+        , $pop_cancel
+        , timer
+        , confirmed
+        ;
+        
+        conf = $.extend({},data);
+
+        $callBack = $.Deferred();
+
+        // 定义pop弹窗及pop_mask遮罩的样式
+        $pop = $(
+            '<div>' + 
+            '<div class="pop-title">' +
+            '确定删除吗(ಥ _ ಥ)' +
+            '</div>' +
+            '<div class="pop-content">' +
+            '【任务/计划标题】' +
+            data.content +
+            '<hr>' +
+            '【描述】' +
+            (data.desc || "暂无") +
+            '<hr>' + 
+            '【时间】' +
+            (data.remind_date || "暂无") +
+            '</div>' + 
+            '<div class="btn">' +
+            '<button class="pop-primary">确定</button>' +
+            '<button class="pop-cancel">取消</button>' +
+            '</div>' +
+            '</div>'
+        ).css({
+            position: "fixed",
+            width: 360,
+            height: "auto",
+            background: "#fff",
+            borderRadius: 4,
+            boxShadow: '0 1px 2px rgba(0,0,0,.5)',
+
+        })
+        $pop_mask = $('<div></div>').css({
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,.5)",
+        })
+
+        $pop_title = $pop.find('.pop-title').css({
+            padding: '5px 10px',
+            fontSize: 18,
+            textAlign: 'center',
+            background: '#fbff00'
+        })
+
+        $pop_content = $pop.find('.pop-content').css({
+            padding: '10px 10px',
+            
+        })
+
+        // 将写好的弹窗和遮罩添加到body层下面
+        $pop_mask.appendTo($body);
+        $pop.appendTo($body);
+
+        // 监听浏览器窗口缩放调用响应式函数pop_position
+        $window.resize();
+        pop_position($pop);
+       
+
+        $pop_primary = $pop.find('.pop-primary');
+        $pop_cancel = $pop.find('.pop-cancel');
+
+        timer = setInterval(function(){
+            if(confirmed !== undefined){
+                $callBack.resolve(confirmed);
+                clearInterval(timer)
+                close_pop();
+            }
+        },50);
+
+        // 监听弹窗中的[确认]按钮的点击事件
+        $pop_primary.on('click',function(){
+            confirmed = true;
+        })
+
+        // 监听弹窗中的[取消]按钮的点击事件
+        $pop_cancel.on('click',function(){
+            confirmed = false;
+        })
+
+        function close_pop(){
+            $pop.remove();
+            $pop_mask.remove();
+        }
+
+       // 使弹窗在用户伸缩浏览器窗口的响应式处理obj为需要响应式的对象
+        function pop_position(obj){
+            var window_width = $window.width()
+            , window_height = $window.height()
+            , pop_width = obj.width()
+            , pop_height = obj.height()
+            , pop_x
+            , pop_y
+            , pop_clientY = 20
+    
+            pop_x = (window_width - pop_width) / 2 ;
+            pop_y = ((window_height - pop_height) / 2) - pop_clientY;
+            
+            obj.css({
+                left: pop_x,
+                top: pop_y
+            })
+
+            $window.on('resize',function(){
+                pop_position(obj);
+            })
+        }
+
+        return $callBack.promise();
+
+    }
+    
+
     })
 })();
 
