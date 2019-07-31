@@ -29,8 +29,14 @@
     var callStore  = {
         get: function(obj,index){
             if(typeof(obj) !== "string") throw new Error("Please enter the correct parameter type --obj(string)");
-            if(index){
-                return store.get(obj)[index];
+            // 修复BUG第一条不能进行数据更新问题
+            if(index === 0 || index){
+                try{
+                    return store.get(obj)[index];
+                }catch(e){
+                    console.log(e);
+                }
+                
             }
             return store.get(obj);
         },
@@ -283,7 +289,7 @@
       接收task的data数据,并调用渲染模板refresh_task_list更新localStorage数据
     */
     function update_task(index,data){
-        if(!index || !task_list[index]) return;
+        if(index === undefined || !task_list[index]) return;
         task_list[index] = $.extend({},task_list[index],data);
 
         refresh_task_list();
@@ -371,10 +377,13 @@
        对比当前task中设置的事件和当前时间开启提醒功能 
      */
     function task_remind_check(){
-        var current_time;
+        var current_time
+        , item
+        , task_time
+        ;
         var timer = setInterval(function(){
             for(var i = 0; i < task_list.length; i++){
-                var item = callStore.get('task_list',i),task_time;
+                item = callStore.get('task_list',i);
                 
                 if(!item || item.informed) continue;
     
@@ -408,6 +417,8 @@
         $msg.hide();
         $notify.get(0).currentTime = 0; // 重置播放时间
         $notify.get(0).pause();  // 暂停播放
+
+        // 修复BUG当前任务不能二次提醒
         var hide_timer = setTimeout(function(){
             update_task(timer_index,{informed: false})
             clearTimeout(hide_timer);
