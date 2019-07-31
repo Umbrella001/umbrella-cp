@@ -207,15 +207,16 @@ input[type=text]:hover{
     color: #333;
 }
 .msg{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
     display: none;
     height: auto;
-    color: #fff;
-    background: #dd32ff;
+    color: #333;
+    background: url(../img/msg_tip.jpg) repeat-x fixed 0 0;
     text-align: center;
     padding: 10px;
-}
-.msg-content{
-    color: #333;
 }
 .anchor{
     width: 60px;
