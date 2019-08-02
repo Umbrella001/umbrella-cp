@@ -52,6 +52,7 @@
        初始化并且读取localStorage数据
     */
     function init(){
+
         // 读取当前localStorage的数据,没有则返回空数组
         task_list = callStore.get('task_list') || [];
 
@@ -298,7 +299,7 @@
     /*
       在Date的原型链上增加一个日期格式为(yyyy-MM-dd hh:mm:ss)的format方法
     */
-    Date.prototype.format = function (fmt) { //author: meizz
+    Date.prototype.format = function (fmt) {
         var o = {
         "M+": this.getMonth() + 1, //月份
         "d+": this.getDate(), //日
