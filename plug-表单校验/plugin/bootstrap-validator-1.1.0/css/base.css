@@ -1,0 +1,17 @@
+html,body{
+    padding: 30px;
+    background: #eee;
+}
+.form-login{
+    width: 600px;
+    height: auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+.help-tip{
+    display: inline-block;
+    margin-top: 5px;
+    color: red;
+}

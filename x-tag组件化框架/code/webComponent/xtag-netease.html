@@ -1,0 +1,43 @@
+<!-- 
+  -- 定义：web component(template包含html css || script写自主逻辑)
+  -- 格式：[插件定义名].register("标签别名",{逻辑方法})
+  -- 注意：script里面的this就是这个web component标签<xtag-netease><xtag-netease>里的template所有元素
+  -- 总结：其实就跟平时我们写在body里面的元素一样,如果要对这个元素添加css属性,就引入有关该元素的样式,同理js也一样
+  -- 对比：这就是跟传统模式不一样的特点所在,就是将要展示在当前页面的元素抽离出来,抽离出来的部分集合html css js为整体的一个html元素
+  -- 关联：① 如果单写这个部分的代码需要在主页面,即[index.html]中通过link[import]的方法引入,
+          然后文档中就通过web component中register注册的别名写标签即可;
+          ② 完成引入还需要对应的js支持,web component中的xtag.register就是在[xtag-component]中完成的,该js主要完成
+          别名的注册、作用域的封闭及方法的拷贝等
+ -->
+<script src="../code-component/xtag-component.js" type="text/javascript"></script>
+<template>
+    <style>
+        .color{
+            color: rgb(248, 48, 12);
+        }
+    </style>
+    <p class="color"></p>
+</template>
+<script>
+    xtag.register('xtag-netease',{
+        lifecycle: {
+            created: function(){
+                console.log("this",this);
+                this.start();  
+            }
+        },
+        methods: {
+            start: function(){
+                console.log("this",this);
+                this.update();
+                this.xtag.interval = setInterval(this.update.bind(this),1000);
+            },
+            stop: function(){
+                this.xtag.interval = clearInterval(this.xtag.interval);
+            },
+            update: function(){
+                this.xtag.children[1].innerText = new Date().toLocaleString();
+            }
+        }
+    })
+</script>

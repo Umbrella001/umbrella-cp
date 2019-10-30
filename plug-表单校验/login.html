@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="plugin/bootstrap-validator-1.1.0/css/bootstrap-3.3.5.min.css" type="text/css">
+    <link rel="stylesheet" href="plugin/bootstrap-validator-1.1.0/css/normalize-8.0.0.css" type="text/css">
+    <link rel="stylesheet" href="plugin/bootstrap-validator-1.1.0/css/base.css" type="text/css">
+</head>
+<body>
+    <!-- 
+        一.自定义监听规则：
+            ① 位置：form标签 || plug调用内部raise
+            ② 格式：data-bv-type=""
+        二.自定义input输入规则：
+            ① 位置：input标签
+            ② 特定：data-bv="true"开启引擎头
+            ③ 自定：dat-bv-[rule]="true" rule对应引擎器内部名,同理写对应error
+    -->
+    <form class="form-horizontal form-login" data-bv-type="keyup">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="Email"
+            data-bv="true"
+            data-bv-require="true"
+            data-bv-require-error="* 邮箱地址为必填项"
+            data-bv-email="true"
+            data-bv-email-error="* 邮箱格式错误"
+            data-bv-maxlength="20"
+            data-bv-maxlength-error="* 输入长度超过规定的20个字符"
+            >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword3" placeholder="Password"
+            data-bv="true"
+            data-bv-require="true"
+            data-bv-require-error="* 密码为必填项"
+            data-bv-password_regex="true"
+            data-bv-password_regex-error="* 密码不能为纯数字或字母，且密码长度为8~16位"
+            >
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="inputMoblie3" class="col-sm-2 control-label">Mobile</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputMoblie3" placeholder="Mobile"
+                data-bv="true"
+                data-bv-require="true"
+                data-bv-require-error="* 手机号是必填项"
+                data-bv-phone="true"
+                data-bv-phone-error="* 请输入正确的手机号码"
+                >
+            </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+            <button type="reset" class="btn btn-default">Reset</button>
+          </div>
+        </div>
+      </form>
+      <form class="form-horizontal form-login" data-bv-type="blur">
+        <div class="form-group">
+            <label for="inputIDcard3" class="col-sm-2 control-label">ID_card</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputIDcard3" placeholder="ID_card"
+                data-bv="true"
+                data-bv-require="true"
+                data-bv-require-error="* 身份证号码是必填项"
+                data-bv-id_card="true"
+                data-bv-id_card-error="* 请输入正确的15、18位身份证号码"
+                >
+            </div>
+        </div>
+      </form>
+      <script src="plugin/common/jquery-2.2.4.min.js"></script>
+      <script type="text/javascript" src="plugin/bootstrap-validator-1.1.0/js/bootstrap-validator-1.1.0.js"></script>
+      <script>
+          $(function(){
+              // 用户选择监听的方式
+              $('form').bootstrapValidtor({
+                  raise : "keyup" 
+              });
+          })
+      </script>
+</body>
+</html>

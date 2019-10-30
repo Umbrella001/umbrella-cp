@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>登录开屏广告</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/demo.js"></script>
+</head>
+<body>
+<div class="page-contaniner" id="my">
+    <!--开屏广告-->
+    <div class="count-down" v-show="adBack">
+        <span class="jump" @click="jump()">点击跳转<b>{{n}}</b></span>
+    </div>
+    <!--主体-->
+    <div class="login-content">
+        <h1 class="login-title">欢迎登录</h1>
+        <div class="panel">
+            <input type="text" class="mobile btn" 
+                placeholder="请输入手机号码" 
+                v-model="mobile"/>
+            <p class="error-tip" v-show="!mobile">输入内容不符合</p>
+        </div>
+        <div class="panel">
+            <input type="password" class="password btn" 
+                    placeholder="请输入登录密码" 
+                    v-model="password"/>
+            <p class="error-tip" v-show="!password">输入内容不符合</p>
+        </div>
+        <div class="panel">
+            <a class="btn-login btn login" @click="login()">登录</a>
+        </div>
+        <div class="panel">
+            <a class="text">我要注册</a>
+            <a class="text">忘记密码</a>
+        </div>
+    </div>
+    
+</div>
+</body>
+</html>

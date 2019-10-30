@@ -1,0 +1,94 @@
+*{
+    margin:0;
+    padding:0;
+}
+ul {
+    list-style-type:none;
+}
+body {
+    font-size: 14px;
+    background: #fff;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+html,body {
+    max-width:720px;
+    height:100%;
+    margin:0 auto;
+}
+
+/*登录主体*/
+.page-contaniner {
+    width:100%;
+    height:100%;
+    background:url(../img/bg.jpg) no-repeat top center;
+    background-size:cover;
+    color: #fff;
+    margin: 0 auto;
+    position:relative;
+    overflow: auto;
+}
+/*登录内容*/
+.login-content .pic {
+    margin:10px;
+}
+.login-content .pic img {
+    max-width: 45%;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+.login-content {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 15%;
+}
+.login-content .login-title {
+    margin: 5%;
+    letter-spacing: 3px;
+}
+.login-content .panel .btn {
+    width: 100%;
+    padding: 5%;
+    color: #fff;
+    font-size: 18px;
+    box-sizing: border-box;
+    outline: none;
+    margin:10px 0;
+    border-bottom: 1px solid #fff;
+} 
+.login-content .panel input {
+    background: rgba(0,0,0,.0);
+    border: none;
+}
+.login-content .panel .error-tip {
+    text-align: left;
+    padding-left: 20px;
+    display: none;
+} 
+.login-content .panel .btn-login {
+    background: rgba(0,143,209,1);
+    border: none; 
+    display: block;
+}
+.login-content .panel .text {
+    padding:0 10px;
+}
+.login-content .panel .text:nth-child(1) {
+    border-right:1px solid #fff;
+}
+/*登录内容 end */
+/*消息提示*/
+.msg-tip {
+    margin-top:20px;
+    background: rgba(255,255,255,.3);
+    border-radius: 10px;
+    display:none;
+    
+}
+.msg-tip p {
+    padding: 10px;
+    color: red;
+}
+/*消息提示 end*/
+

@@ -1,0 +1,31 @@
+<template>
+    <style>
+        .color{
+            color: red;
+        }
+    </style>
+    <p>My favorite color is:<strong class="color">Red</strong></p>
+    <div id="mydiv">相同id</div>
+</template>
+<script>
+    (function(){
+        /**
+         * Object.create为克隆一个对象,该段代码就是将HTMLElement的原型上的方法全复制给element
+         * 作用是避免直接使用HTMKElement.prototype上直接创建方法,以免将底层方法冲突
+         * 检测当前根类是否含有自己要设置的方法名,直接log(HTMLELement.prototype.createdCallback)如果为undefinded说明原型上没有定义该类
+         * 类比,在作用域里的方法可以使用这种克隆副本来进行操作,如 Object.creat(String.prototype)
+         */
+        var element = Object.create(HTMLElement.prototype);
+        var template = document.currentScript.ownerDocument.querySelector('template').content;
+            element.createdCallback = function(){
+                var shadowRoot = this.createShadowRoot(); // 创建shadow root节点 作用域包括js css html
+                var clone = document.importNode(template, true); // 深拷贝template的节点给clone
+                shadowRoot.appendChild(clone); // 将元素节点装进shadowRoot黑盒中实现封闭作用域
+            };
+            // 将元素<netease-color>注册到全局文档中,注意该document是index中的文档节点,
+            // 并将继承的element作为原型,这样可以使用该文档中的节点函数createdCallback
+            document.registerElement('netease-color',{
+                prototype: element
+            });
+    }());
+</script>
