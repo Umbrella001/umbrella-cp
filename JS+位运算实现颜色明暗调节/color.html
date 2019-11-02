@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="./common/css/colorStyle.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="rect"></div>
+        <button id="light">加亮</button>
+        <button id="reset">重置</button>
+        <button id="dark">变暗</button>
+    </div>
+    <script src="./common/js/colorJs.js"></script>
+    <script>      
+        Function.changeColor({
+            initColor: '#ab4369',
+            lightRange: 1.2,
+            darkRange: 0.5
+        })
+    </script>
+</body>
+</html>

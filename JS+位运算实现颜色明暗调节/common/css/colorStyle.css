@@ -1,0 +1,16 @@
+.container {
+    width: 250px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#rect {
+    width: 120px;
+    height: 65px;
+    background-color: #fa71cd;
+    margin: 10px auto;
+}
+
+button {
+    margin-right: 20px;
+}
