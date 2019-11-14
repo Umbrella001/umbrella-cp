@@ -7,7 +7,7 @@
 
 ③ 纯js写两个好玩的文字爱心点击屏幕样式（娱乐）
 
-④ JS制作放大镜demo
+④ JS制作仿淘宝放大镜效果
 
 ⑤ JQ制作飘落动画（优化加强版）
 
@@ -30,7 +30,7 @@
 
 ① plgn-Bootstrap的表单校验（插件引擎）
 
-② new Date().format自定义时间格式（简易js）
+② new Date().format自定义时间格式（原生js）
 
 ③ x-tag组件化框架 web component组件化
 
