@@ -1,5 +1,5 @@
-## 小小功能组件
-#### 列表：
+## 1️⃣ 小小功能组件
+#### :bento: 列表：
 ------------------------
 ① 纯JQuery写的todolist
 
@@ -17,29 +17,31 @@
 
 ------------------------
 
-#### 说明
-存一些小小小小功能组件
+#### :bookmark: 说明
+淡月[疏星](http://www.so.com/s?q=疏星&ie=utf-8&src=internal_wenda_recommend_textn)绕建章，[仙风](http://www.so.com/s?q=仙风&ie=utf-8&src=internal_wenda_recommend_textn)吹下[御炉](http://www.so.com/s?q=御炉&ie=utf-8&src=internal_wenda_recommend_textn)香。
 
 =================================================================================================================================================================================================================================
 
-## 小小小小封装/插件
+## 2️⃣ 小小小小封装/插件
 
-#### 列表：
+#### :bento: 列表：
 
 ------
 
 ① plgn-Bootstrap的表单校验（插件引擎）
 
-② new Date().format自定义时间格式（原生js）
+② format自定义工具类util（封装）
 
 ③ x-tag组件化框架 web component组件化
 
-④ Vue实现登录界面的开屏广告
+④ new Date().format自定义时间格式
 
-⑤ webApp登录校验及封装
+⑤  Vue实现登录界面的开屏广告
+
+⑥ webApp登录校验及封装
 
 ------
 
-#### 说明
+#### :bookmark :说明
 
-存放一些小封装/插件代码
+侍臣鹄立[通明殿](http://www.so.com/s?q=通明殿&ie=utf-8&src=internal_wenda_recommend_textn)，[一朵红云](http://www.so.com/s?q=一朵红云&ie=utf-8&src=internal_wenda_recommend_textn)捧玉皇。
