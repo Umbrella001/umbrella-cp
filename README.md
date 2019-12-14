@@ -40,6 +40,8 @@
 
 ⑥ webApp登录校验及封装
 
+⑦ 移动端格式化base64转Blog对象和文件
+
 ------
 
 #### :page_facing_up: 说明
