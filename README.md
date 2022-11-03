@@ -1,49 +1,45 @@
 ## 1️⃣ 小小功能组件
+
 #### :pencil: 列表：
-------------------------
-① 纯JQuery写的todolist
 
-② 简易原生JS拖动滑块
+---
 
-③ 纯JS写两个好玩的文字爱心点击屏幕样式（娱乐）
+1. 纯 JQuery 写的 todolist
 
-④ JS制作仿淘宝放大镜效果
+2. 简易原生 JS 拖动滑块
 
-⑤ JQ制作飘落动画（优化加强版）
+3. 纯 JS 写两个好玩的文字爱心点击屏幕样式（娱乐）
 
-⑥ JQ递归无限级目录树（丑陋版）
+4. JS 制作仿淘宝放大镜效果
 
-⑦ JS+位运算实现颜色明暗调节
+5. JQ 制作飘落动画（优化加强版）
 
-------------------------
+6. JQ 递归无限级目录树（丑陋版）
 
-####  :page_facing_up: 说明
-淡月[疏星](http://www.so.com/s?q=疏星&ie=utf-8&src=internal_wenda_recommend_textn)绕建章，[仙风](http://www.so.com/s?q=仙风&ie=utf-8&src=internal_wenda_recommend_textn)吹下[御炉](http://www.so.com/s?q=御炉&ie=utf-8&src=internal_wenda_recommend_textn)香。
+7. JS+位运算实现颜色明暗调节
 
-==================================================================================================================================================================
+---
 
 ## 2️⃣ 小小小小封装/插件
 
 #### :pencil:列表：
 
-------
+---
 
-① plgn-Bootstrap的表单校验（插件引擎）
+1. plgn-Bootstrap 的表单校验（插件引擎）
 
-② format自定义工具类util（封装）
+2. format 自定义工具类 util（封装）
 
-③ x-tag组件化框架 web component组件化
+3. x-tag 组件化框架 web component 组件化
 
-④ new Date().format自定义时间格式
+4. new Date().format 自定义时间格式
 
-⑤  Vue实现登录界面的开屏广告
+5. Vue 实现登录界面的开屏广告
 
-⑥ webApp登录校验及封装
+6. webApp 登录校验及封装
 
-⑦ 移动端格式化base64转Blog对象和文件
+7. 移动端格式化 base64 转 Blog 对象和文件
 
-------
+8. 手写 Promise/A+规范，实现 promise.then 方法
 
-#### :page_facing_up: 说明
-
-侍臣鹄立[通明殿](http://www.so.com/s?q=通明殿&ie=utf-8&src=internal_wenda_recommend_textn)，[一朵红云](http://www.so.com/s?q=一朵红云&ie=utf-8&src=internal_wenda_recommend_textn)捧玉皇。
+---
