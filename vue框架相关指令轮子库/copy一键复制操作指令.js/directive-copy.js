@@ -9,16 +9,15 @@ const DirectiveCopy = {
         Message.warning('无复制内容')
         return
       }
-
       try {
         return navigator.clipboard
           .writeText(text)
           .then(() => {
-            return Promise.resolve()
+            Message.success('复制成功')
           })
           .catch(err => {
+            Message.warning('复制失败')
             console.error('复制失败：', err)
-            return Promise.reject(err)
           })
       } catch (e) {
         // 使用textarea支持换行符
@@ -37,7 +36,7 @@ const DirectiveCopy = {
           if (!result || result === 'unsuccessful') {
             Message.warning('复制失败')
           } else {
-            Message.success('无复制内容')
+            Message.success('复制成功')
           }
         } catch (e) {
           document.body.removeChild(textarea)
