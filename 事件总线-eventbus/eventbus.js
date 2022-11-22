@@ -12,6 +12,14 @@ class EventBus {
     handlers.forEach(handler => {
       handler.eventCallback.apply(handler.thisArg, payload)
     })
+
+    const mapAllHandlers = this.eventBus['*']
+    if (mapAllHandlers?.length) {
+      mapAllHandlers.map(handler =>
+        handler.eventCallback.apply(handler.thisArg, payload)
+      )
+    }
+
     return this
   }
 
@@ -42,8 +50,9 @@ class EventBus {
       throw new TypeError('the event name must be string type')
     }
 
-    if (typeof eventCallback !== 'function') {
-      throw new TypeError('the event callback must be function type')
+    if (!eventCallback) {
+      delete this.eventBus[eventName]
+      return
     }
 
     const handlers = this.eventBus[eventName]
@@ -78,6 +87,10 @@ class EventBus {
     }
 
     return this.on(eventName, tempCallback, thisArg)
+  }
+
+  clear() {
+    this.eventBus = {}
   }
 }
 
