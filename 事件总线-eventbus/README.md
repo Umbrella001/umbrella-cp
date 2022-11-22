@@ -12,15 +12,15 @@
 <br />
 派发事件：Dispatch event
 
-- `eventName` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** Type of eventName to listen for, or `'*'` for all events >>> [事件名称]
-- `payload` **([any](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures))** Any value (object is recommended and powerful), passed to each handler >>> [参数]
+- `eventName` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** Type of eventName to listen for, or `'*'` for all events >>> [事件名称]
+- `payload` **([Any](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures))** Any value (object is recommended and powerful), passed to each handler >>> [参数]
 
 > ### on
 
 <br />
 订阅/监听事件：Subscribe Events
 
-- `eventName` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** Type of eventName to listen for, or `'*'` for all events >>> [事件名称]
+- `eventName` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** Type of eventName to listen for, or `'*'` for all events >>> [事件名称]
 - `handler` **([Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** Function to call in response to given event >>> [回调函数]
 - `thisArg` You can pass in the thisArg to use in the callback >>> [指定_this_指向]
 
@@ -29,7 +29,7 @@
 <br />
 订阅/监听事件(一次性)：Subscribe Events（once）
 
-- `eventName` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** Type of eventName to listen for, or `'*'` for all events >>> [事件名称]
+- `eventName` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** Type of eventName to listen for, or `'*'` for all events >>> [事件名称]
 - `handler` **([Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** Function to call in response to given event >>> [回调函数]
 - `thisArg` You can pass in the thisArg to use in the callback >>> [指定_this_指向]
 
@@ -38,7 +38,7 @@
 <br />
 取消订阅/监听事件：Unsubscribe Events
 
-- `eventName` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** Type of eventName to listen for, or `'*'` for all events >>> [事件名称]
+- `eventName` **([String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** Type of eventName to listen for, or `'*'` for all events >>> [事件名称]
 - `handler` **([Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** Function to call in response to given event，If no handler function is passed in, all listening events corresponding to the event name will be cleared >>> [回调函数，不指定对应回调函数将清除对应事件中的所有监听/订阅]
 
 > ### clear
