@@ -42,7 +42,7 @@
 
 8. 手写 Promise/A+规范，实现 promise.then 方法
 
-9. 事件总线 EventBus，实现了 emit, on, off, once 方法（可完成大多数事务）
+9. 事件总线 EventBus，实现了 emit, on, off, once, clear 方法（可完成大多数事务）
 
 ---
 
