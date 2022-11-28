@@ -1,43 +1,57 @@
 <!DOCTYPE html>
 <html lang="zh">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    </head>
-    <script src="jquery/jquery-2.2.4.min.js"></script>
-    <script src="https://cdn.bootcss.com/store.js/1.3.20/store.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/normalize/4.2.0/normalize.css">
-    <link rel="stylesheet" href="node_modules/datetimepicker-master/build/jquery.datetimepicker.min.css">
-    <link rel="stylesheet" href="common/css/base.css">
-    <body>
-        <div class="msg">
-            【任务时间到啦】 
-            <span class="msg-content"></span>
-            <button class="anchor confirmed">知道了</button>
-        </div>
-        <header>JQListApp</header>
-        <div class="container">
-            <!-- 左上侧清单列表操作区 -->
-            <div class="add-task">
-                <input type="text" name="content" 
-                placeholder="例：今晚学习JQuery进阶第九章~" 
-                autofocus
-                autocomplete="off"
-                >
-                <button type="submit" class="btn">submit</button>
-            </div>
-            <!-- 左下侧清单列表展示区 -->
-            <div class="task-list">
-
-            </div>
-            <!-- 右侧清单详情操作区 -->
-            <div class="task-detail-mask"></div>
-            <div class="task-detail">
-
-            </div>
-        </div> <!-- container结束 -->
-    </body>
-    <video class="notify"  autostart="false"  controls="controls" loop src="common/music/notify.mp3"></video>
-    <script src="node_modules/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
-    <script src="common/js/base.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
+  </head>
+  <script src="jquery/jquery-2.2.4.min.js"></script>
+  <script src="https://cdn.bootcss.com/store.js/1.3.20/store.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdn.bootcss.com/normalize/4.2.0/normalize.css"
+  />
+  <link
+    rel="stylesheet"
+    href="node_modules/datetimepicker-master/build/jquery.datetimepicker.min.css"
+  />
+  <link rel="stylesheet" href="common/css/base.css" />
+  <body>
+    <div class="msg">
+      【任务时间到啦】
+      <span class="msg-content"></span>
+      <button class="anchor confirmed">知道了</button>
+    </div>
+    <header>JQListApp</header>
+    <div class="container">
+      <!-- 左上侧清单列表操作区 -->
+      <div class="add-task">
+        <input
+          type="text"
+          name="content"
+          placeholder="例：今晚学习JQuery进阶第九章~"
+          autofocus
+          autocomplete="off"
+        />
+        <button type="submit" class="btn">submit</button>
+      </div>
+      <!-- 左下侧清单列表展示区 -->
+      <div class="task-list"></div>
+      <!-- 右侧清单详情操作区 -->
+      <div class="task-detail-mask"></div>
+      <div class="task-detail"></div>
+    </div>
+    <!-- container结束 -->
+  </body>
+  <video
+    class="notify"
+    autostart="false"
+    controls="controls"
+    loop
+    src="common/music/notify.mp3"
+  ></video>
+  <script src="node_modules/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
+  <script src="common/js/base.js"></script>
 </html>
